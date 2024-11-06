@@ -47,8 +47,14 @@ public class Trie {
    * it should not affect the internal structure of the Trie.
    * This method validates the input using {@link #validateInput(String)}, which throws an
    * IllegalArgumentException if the input is null, empty, or contains non-alphabetic characters.
-   *
-   *
+   * <br>
+   * Hints:<br>
+   * 1. Start from the root node and iterate through each character of the lowercase string.<br>
+   * 2. For each character, determine its index using {@link #getBucketIndex(char)}.<br>
+   * 3. Check if a child node exists at this index; if not, create a new node and link it.<br>
+   * 4. Move to the next node and continue until the end of the string.<br>
+   * 5. Mark the final node as the end of a word.<br>
+   * <br>
    * @param value the string to insert into the Trie
    * @throws IllegalArgumentException if the input is null, empty, or contains non-alphabetic characters
    */
@@ -62,7 +68,13 @@ public class Trie {
    * The input string is transformed to lowercase format before checking.
    * This method validates the input using {@link #validateInput(String)}, which throws an
    * IllegalArgumentException if the input is null, empty, or contains non-alphabetic characters.
-   *
+   * <br>
+   * Hints:<br>
+   * 1. Start from the root node and iterate through each character of the lowercase string.<br>
+   * 2. For each character, use {@link #getBucketIndex(char)} to find the correct child node.<br>
+   * 3. If a node for a character doesn’t exist, return false immediately.<br>
+   * 4. If you reach the end of the string, check if the last node is marked as the end of a word.<br>
+   *<br>
    * @param value the string to check for in the Trie
    * @return true if the string is present as a complete word, false otherwise
    * @throws IllegalArgumentException if the input is null, empty, or contains non-alphabetic characters
@@ -77,7 +89,13 @@ public class Trie {
    * The input string is transformed to lowercase format before checking.
    * This method validates the input using {@link #validateInput(String)}, which throws an
    * IllegalArgumentException if the input is null, empty, or contains non-alphabetic characters.
-   *
+   * <br>
+   * Hints:
+   * 1. Start from the root node and iterate through each character of the lowercase string.<br>
+   * 2. For each character, use {@link #getBucketIndex(char)} to find the correct child node.<br>
+   * 3. If a node for a character doesn’t exist, return false immediately.<br>
+   * 4. If you reach the end of the string, return true, as all characters of the prefix were found.<br>
+   * <br>
    * @param value the prefix string to check for in the Trie
    * @return true if the string is present as a prefix, false otherwise
    * @throws IllegalArgumentException if the input is null, empty, or contains non-alphabetic characters
@@ -103,7 +121,23 @@ public class Trie {
    *    (e.g., removing "cater" when "cat" exists), only the nodes beyond the shorter word are removed,
    *    leaving "cat" intact.</li>
    * </ul>
-   *
+   * <br>
+   * Hints:<br>
+   * 1. Start from the root node and initialize variables to keep track of:<br>
+   *    - The current node as you traverse.<br>
+   *    - The last "fork" node (node with more than one child or marking the end of another word).<br>
+   *    - The child index at the fork node.<br>
+   * 2. As you iterate through each character of the lowercase string:<br>
+   *    - Use {@link #getBucketIndex(char)} to find the appropriate child node.<br>
+   *    - If a node for a character doesn’t exist, the word is not in the Trie; exit the method.<br>
+   *    - If the current node marks the end of another word or has multiple children, update<br>
+   *      the fork node to this node and store the current child index.<br>
+   * 3. After reaching the last character, check if the node is marked as the end of a word.<br>
+   *    - If it’s not marked, the word does not exist as a complete word; exit the method.<br>
+   *    - If it is marked, unmark this node as the end of the word.<br>
+   * 4. If the final node has no children (i.e., is no longer needed), backtrack:<br>
+   *    - Use the fork node and the child index to remove all nodes after the fork node.<br>
+   * <br>
    * @param value the string to remove from the Trie
    * @throws IllegalArgumentException if the input is null, empty, or contains non-alphabetic characters
    */
